@@ -1,0 +1,46 @@
+#!/usr/bin/php
+<?php
+
+if (php_sapi_name() !== 'cli') {
+    exit;
+}
+
+$root_app = dirname(__DIR__);
+
+if (!is_file($root_app . '/vendor/autoload.php')) {
+    $root_app = dirname(__DIR__, 4);
+}
+
+require $root_app . '/vendor/autoload.php';
+
+use Minicli\App;
+
+$config = [
+    'path' => $root_app,
+];
+
+if (file_exists($root_app . '/swiftyper_config.php')) {
+    $config += require $root_app . '/swiftyper_config.php';
+}
+
+$app = new App($config);
+
+$signature = <<<LOGO
+  ___        _  __ _                        ___ ___ _____ 
+ / __|_ __ _(_)/ _| |_ _  _ _ __  ___ _ _  | __| _ )_   _|
+ \__ \ V  V / |  _|  _| || | '_ \/ -_) '_| | _|| _ \ | |  
+ |___/\_/\_/|_|_|  \__|\_, | .__/\___|_|   |_| |___/ |_|  
+                       |__/|_|
+LOGO;
+
+$app->setSignature($signature);
+
+$app->registerCommand('fbt', function (Minicli\Command\CommandCall $call) use ($app) {
+    echo $app->getSignature();
+
+    $controller = new \Swiftyper\fbt\Command\Fbt\DefaultController();
+    $controller->boot($app);
+    $controller->run($call);
+});
+
+$app->runCommand($argv);

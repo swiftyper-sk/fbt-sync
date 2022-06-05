@@ -1,0 +1,35 @@
+{
+  "name": "swiftyper/fbt-sync",
+  "description": "Extension for automatic deployment of fbt framework translations for PHP",
+  "keywords": ["php", "i18n", "framework", "internationalization", "cli", "translations", "sync", "deploy"],
+  "authors": [
+    {
+      "name": "Richard Dobroň",
+      "role": "Developer"
+    }
+  ],
+  "homepage": "https://translations.swiftyper.sk/",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "bin": [
+    "bin/swiftyper"
+  ],
+  "autoload": {
+    "psr-4": {
+      "Swiftyper\\fbt\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^7.0 || ^8.0",
+    "ext-json": "*",
+    "minicli/minicli": "1.0.4|^2.0",
+    "swiftyper/swiftyper-php": "^v1.0.1",
+    "richarddobron/fbt": "^3.0|^4.0"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "@php -r \"file_exists('swiftyper_config.php') || copy('config_sample.php', 'swiftyper_config.php');\""
+    ],
+    "post-merge": "composer install"
+  }
+}

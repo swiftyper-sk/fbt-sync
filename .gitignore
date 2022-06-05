@@ -1,0 +1,6 @@
+/.idea
+/vendor
+composer.lock
+swiftyper_config.php
+.php_cs.cache
+.php-cs-fixer.cache
