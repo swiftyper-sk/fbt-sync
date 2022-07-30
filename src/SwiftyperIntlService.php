@@ -57,10 +57,17 @@ class SwiftyperIntlService implements ServiceInterface
 
     /**
      * @throws \Swiftyper\Exception\ApiErrorException
+     * @throws \Exception
      */
     public function deploy(string $path, int $flags = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE): array
     {
         $file = $path . '/translatedFbts.json';
+
+        if (! is_dir($path) || ! is_writable($path)) {
+            throw new \Exception("Directory $path is not writable.");
+        } elseif (is_file($file) && ! is_writable($file)) {
+            throw new \Exception("File $file is not writable.");
+        }
 
         $translations = Translation::raw();
         file_put_contents($file, json_encode($translations, $flags));
