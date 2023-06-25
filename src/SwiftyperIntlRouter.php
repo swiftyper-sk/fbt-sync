@@ -36,8 +36,8 @@ class SwiftyperIntlRouter
     public function sync()
     {
         if ($this->signatureValidator->isValid()) {
-            $this->service->deploy($this->fbtDir);
             $this->service->upload($this->fbtDir);
+            $this->service->deploy($this->fbtDir);
 
             $this->response([]);
         }

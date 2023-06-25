@@ -8,6 +8,7 @@ use Minicli\Command\CommandController;
 use Swiftyper\Exception\ApiErrorException;
 use Swiftyper\Fbt;
 use Swiftyper\fbt\SwiftyperIntlService;
+use Swiftyper\Swiftyper;
 
 class DefaultController extends CommandController
 {
@@ -19,6 +20,11 @@ class DefaultController extends CommandController
      */
     private $service;
 
+    /**
+     * Cache storage path for generated translations & source strings.
+     *
+     * @var string
+     */
     private $fbtDir;
 
     public function boot(App $app)
@@ -37,7 +43,7 @@ class DefaultController extends CommandController
             mkdir($this->fbtDir, 0755, true);
         }
 
-        \Swiftyper\Swiftyper::setApiKey($this->config->api_key);
+        Swiftyper::setApiKey($this->config->api_key);
 
         try {
             if ($this->hasFlag('--config')) {
@@ -95,6 +101,7 @@ class DefaultController extends CommandController
     /**
      * @param string|null $path
      * @throws ApiErrorException
+     * @throws \Exception
      */
     private function upload($path)
     {
@@ -107,6 +114,7 @@ class DefaultController extends CommandController
 
     /**
      * @throws ApiErrorException
+     * @throws \Exception
      */
     private function deploy()
     {
