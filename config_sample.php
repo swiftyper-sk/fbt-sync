@@ -25,6 +25,7 @@ return [
         'path' => '',
         'hash_module' => 'md5',
         'md5_digest' => 'hex',
+        'fallback' => [],
     ],
 
 ];

@@ -9,10 +9,19 @@ use Swiftyper\Translation;
 
 class SwiftyperIntlService implements ServiceInterface
 {
+    /**
+     * @var array
+     */
+    private $config;
     private $result = [
         'errors' => [],
         'info' => [],
     ];
+
+    public function __construct(array $config = [])
+    {
+        $this->config = $config;
+    }
 
     public function load(App $app)
     {
@@ -69,7 +78,10 @@ class SwiftyperIntlService implements ServiceInterface
             throw new \Exception("File $file is not writable.");
         }
 
-        $translations = Translation::raw();
+        $translations = Translation::raw([
+            'fallback' => $this->config['fallback'] ?? [],
+        ]);
+
         file_put_contents($file, json_encode($translations, $flags));
 
         $this->result['info'][] = 'Translations has been deployed.';

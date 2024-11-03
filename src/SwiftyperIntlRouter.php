@@ -29,7 +29,7 @@ class SwiftyperIntlRouter
 
         $config = require($root_app . '/swiftyper_config.php');
         $this->fbtDir = $config['fbt']['path'] . '/';
-        $this->service = new SwiftyperIntlService();
+        $this->service = new SwiftyperIntlService($config['fbt']);
         $this->signatureValidator = new SwiftyperSignatureValidator($config);
     }
 

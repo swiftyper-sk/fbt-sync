@@ -31,8 +31,10 @@ class DefaultController extends CommandController
     {
         parent::boot($app);
 
+        $root_app = dirname(__DIR__, 2);
         $this->config = $this->getApp()->config;
-        $this->service = new SwiftyperIntlService();
+        $config = include($root_app . '/swiftyper_config.php');
+        $this->service = new SwiftyperIntlService($config['fbt'] ?? []);
     }
 
     public function handle()
